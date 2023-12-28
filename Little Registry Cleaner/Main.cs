@@ -389,7 +389,7 @@ namespace Little_Registry_Cleaner
             switch (lang.Name)
             {
                 case "englishToolStripMenuItem":
-                    ci = new CultureInfo("en");
+                    ci = new CultureInfo("1");
                     break;
 
                 case "spanishToolStripMenuItem":

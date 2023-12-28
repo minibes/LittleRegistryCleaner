@@ -82,7 +82,8 @@ namespace Little_Registry_Cleaner
             this.progressBar.PositionMin = 0;
             this.progressBar.PositionMax = ScanDlg.arrBadRegistryKeys.SectionCount;
 
-            SetProgressValue(0, ScanDlg.arrBadRegistryKeys.SectionCount);
+            if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 0)
+                TaskbarManager.Instance.SetProgressValue(0, ScanDlg.arrBadRegistryKeys.SectionCount);
 
             // Append 0 to problem label
             this.labelProblems.Text = string.Format("{0} 0", this.labelProblems.Text);
@@ -179,7 +180,7 @@ namespace Little_Registry_Cleaner
         }
 
         /// <summary>
-        /// Starts a scanner
+        /// Начало сканирования
         /// </summary>
         public void StartScanner(ScannerBase scannerName)
         {
@@ -190,17 +191,17 @@ namespace Little_Registry_Cleaner
             
             Main.Logger.WriteLine("Starting scanning: " + scannerName.ScannerName);
 
-            // Update section name
+            // Актуализирование имени раздела
             scannerName.RootNode.SectionName = scannerName.ScannerName;
             scannerName.RootNode.Img = this.imageList.Images[scannerName.GetType().Name];
             ScanDlg.CurrentSection = scannerName.ScannerName;
 
-            // Start scanning
+            // Начало сканирования
             this.threadScan = new Thread(new ThreadStart(objScan));
             this.threadScan.Start();
             this.threadScan.Join();
 
-            // Wait 250ms
+            //Ожидание 250мс
             Thread.Sleep(250);
 
             if (scannerName.RootNode.Nodes.Count > 0)
@@ -210,15 +211,9 @@ namespace Little_Registry_Cleaner
             Main.Logger.WriteLine();
 
             this.progressBar.Position++;
-            SetProgressValue(this.progressBar.Position, ScanDlg.arrBadRegistryKeys.SectionCount);
-        }
-
-        private void SetProgressValue(int currentValue, int maxValue)
-        {
-            // Make sure OS is Windows 7 or greater
             if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 0)
             {
-                TaskbarManager.Instance.SetProgressValue(currentValue, maxValue);
+                TaskbarManager.Instance.SetProgressValue(this.progressBar.Position, ScanDlg.arrBadRegistryKeys.SectionCount);
             }
         }
 

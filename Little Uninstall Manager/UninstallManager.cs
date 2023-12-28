@@ -127,41 +127,41 @@ namespace Little_Uninstall_Manager
             // Populate list view
             foreach (Common_Tools.ProgramInfo progInfo in listProgInfo)
             {
-                ListViewItem lvi = new ListViewItem();
+                ListViewItem listviewitem = new ListViewItem();
 
                 // Display Name
                 if (!string.IsNullOrEmpty(progInfo.DisplayName))
-                    lvi.Text = progInfo.DisplayName;
+                    listviewitem.Text = progInfo.DisplayName;
                 else if (!string.IsNullOrEmpty(progInfo.QuietDisplayName))
-                    lvi.Text = progInfo.QuietDisplayName;
+                    listviewitem.Text = progInfo.QuietDisplayName;
                 else
-                    lvi.Text = progInfo.Key;
+                    listviewitem.Text = progInfo.Key;
 
                 // Publisher
-                lvi.SubItems.Add(((!string.IsNullOrEmpty(progInfo.DisplayName)) ? (progInfo.Publisher) : ("")));
+                listviewitem.SubItems.Add(((!string.IsNullOrEmpty(progInfo.DisplayName)) ? (progInfo.Publisher) : ("")));
 
                 // Estimated Size
                 if (progInfo.InstallSize > 0)
-                    lvi.SubItems.Add(Utils.ConvertSizeToString((uint)progInfo.InstallSize));
+                    listviewitem.SubItems.Add(Utils.ConvertSizeToString((uint)progInfo.InstallSize));
                 else if (progInfo.EstimatedSize > 0)
-                    lvi.SubItems.Add(Utils.ConvertSizeToString(progInfo.EstimatedSize * 1024));
+                    listviewitem.SubItems.Add(Utils.ConvertSizeToString(progInfo.EstimatedSize * 1024));
                 else
-                    lvi.SubItems.Add("");
+                    listviewitem.SubItems.Add("");
 
                 if ((!string.IsNullOrEmpty(progInfo.DisplayName))
                     && (string.IsNullOrEmpty(progInfo.ParentKeyName))
                     && (!progInfo.SystemComponent))
                 {
                     if (progInfo.Uninstallable)
-                        lvi.ImageKey = "OK";
+                        listviewitem.ImageKey = "OK";
                     else
-                        lvi.ImageKey = "ERROR";
+                        listviewitem.ImageKey = "ERROR";
 
                     // Add program info to tag
-                    lvi.Tag = progInfo;
+                    listviewitem.Tag = progInfo;
 
-                    if (regex.IsMatch(lvi.Text))
-                        this.listViewProgs.Items.Add(lvi);
+                    if (regex.IsMatch(listviewitem.Text))
+                        this.listViewProgs.Items.Add(listViewProgs);
                 }
             }
 
